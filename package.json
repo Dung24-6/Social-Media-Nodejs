@@ -1,0 +1,30 @@
+{
+  "name": "social-media",
+  "version": "1.0.0",
+  "description": "Back-end for Social Media Website",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dung24-6/Social-Media.git"
+  },
+  "keywords": [
+    "Nodejs",
+    "Social",
+    "Media",
+    "Express",
+    "PostgresQL"
+  ],
+  "author": "Ha Van Quoc Dung",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dung24-6/Social-Media/issues"
+  },
+  "homepage": "https://github.com/Dung24-6/Social-Media#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
