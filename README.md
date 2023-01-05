@@ -1,4 +1,4 @@
-# Project Management
+# Social-Media-Backend
 
 
 ![Logo](https://wiki.tino.org/wp-content/uploads/2021/07/word-image-1155.png)
