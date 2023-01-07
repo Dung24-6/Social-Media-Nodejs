@@ -8,7 +8,7 @@ const UsersModel = db.define(
       type: DataTypes.UUID,
       allowNull: false,
       primaryKey: true,
-      defaultValue: DataTypes.UUIDV4,
+      autoIncrement: true,
     },
     username: {
       type: DataTypes.STRING(255),
@@ -18,6 +18,10 @@ const UsersModel = db.define(
       type: DataTypes.STRING(255),
       allowNull: false,
     },
+    password: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    }
   },
   {
     freezeTableName: true,
