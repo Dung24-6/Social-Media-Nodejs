@@ -1,8 +1,23 @@
 const { UsersModel } = require("../models/User");
 
 const getALLUsers = async (req, res) => {
-  const users = await UsersModel.findAll();
-  res.status(200).json(users);
+  try {
+    var page = req.query.page;
+    if (page) {
+      page = parseInt(page);
+      const users = await UsersModel.findAndCountAll({
+        where: {},
+        limit: 2,
+        offset: page * 2 - 1,
+      });
+      return res.status(200).json(users);
+    } else {
+      const users = await UsersModel.findAll();
+      return res.status(200).json(users);
+    }
+  } catch (err) {
+    return res.status(400).json({ error: err.message });
+  }
 };
 
 const registerUser = async (req, res) => {
