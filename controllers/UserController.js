@@ -79,7 +79,7 @@ const privateLogin = (req, res) => {
         .json("Login with token ok , you can access private");
     }
   } catch (err) {
-    return res.status(500).json("You need login first");
+    return res.status(500).json("You must be logged in first!");
   }
 };
 
