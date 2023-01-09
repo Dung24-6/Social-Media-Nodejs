@@ -1,4 +1,5 @@
 const { UsersModel } = require("../models/User");
+const jwt = require("jsonwebtoken");
 
 const getALLUsers = async (req, res) => {
   try {
@@ -55,10 +56,30 @@ const loginUser = async (req, res) => {
     if (password !== user.password) {
       return res.status(400).json("Password incorrect");
     }
-    return res.json("OK");
+    var token = jwt.sign({ id: user.id }, "havanquocdung", {
+      expiresIn: 86400,
+    });
+    return res.json({
+      message: "Login ok",
+      token: token,
+    });
   } catch (err) {
     console.log(err);
     return res.status(400).json({ error: err.message });
+  }
+};
+
+const privateLogin = (req, res) => {
+  try {
+    var token = req.cookies.token;
+    var id = jwt.verify(token, "havanquocdung");
+    if (id) {
+      return res
+        .status(200)
+        .json("Login with token ok , you can access private");
+    }
+  } catch (err) {
+    return res.status(500).json("You need login first");
   }
 };
 
@@ -66,4 +87,5 @@ module.exports = {
   getALLUsers,
   registerUser,
   loginUser,
+  privateLogin,
 };
