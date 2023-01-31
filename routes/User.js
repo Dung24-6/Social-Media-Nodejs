@@ -5,7 +5,11 @@ const checkAut = require("../middlewares/Auth");
 
 router.get("/", UserController.getALLUsers);
 
+router.get("/:id", UserController.getById);
+
 router.post("/register", UserController.registerUser);
+
+router.delete("/:id", UserController.deleteUser);
 
 router.post("/login", UserController.loginUser);
 

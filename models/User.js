@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
 const db = require("../config/config");
+const { PostsModel } = require("./Post");
 
 const UsersModel = db.define(
   "users",
@@ -21,11 +22,13 @@ const UsersModel = db.define(
     password: {
       type: DataTypes.STRING(255),
       allowNull: false,
-    }
+    },
   },
   {
     freezeTableName: true,
   }
 );
+
+UsersModel.Post = UsersModel.hasMany(PostsModel);
 
 module.exports = { UsersModel };

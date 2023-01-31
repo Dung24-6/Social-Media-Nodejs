@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 
 const getALLUsers = async (req, res) => {
   try {
-    var page = req.query.page;
+    let page = req.query.page;
     if (page) {
       page = parseInt(page);
       const users = await UsersModel.findAndCountAll({
@@ -11,6 +11,22 @@ const getALLUsers = async (req, res) => {
         limit: 2,
         offset: page * 2 - 1,
       });
+      return res.status(200).json(users);
+    } else {
+      const users = await UsersModel.findAll();
+      return res.status(200).json(users);
+    }
+  } catch (err) {
+    return res.status(400).json({ error: err.message });
+  }
+};
+
+const getById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    if (id) {
+      const users = await UsersModel.findOne({ where: { id: id } });
       return res.status(200).json(users);
     } else {
       const users = await UsersModel.findAll();
@@ -43,6 +59,21 @@ const registerUser = async (req, res) => {
   }
 };
 
+const deleteUser = async (req, res) => {
+  const { id } = req.params;
+  try {
+    if (id) {
+      const users = await UsersModel.findOne({ where: { id: id } });
+      await users.destroy();
+      return res.status(200).json("Delete successful");
+    } else {
+      return res.status(200).json("No id");
+    }
+  } catch (err) {
+    return res.status(400).json({ error: err.message });
+  }
+};
+
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
   if (!(email && password)) {
@@ -56,7 +87,7 @@ const loginUser = async (req, res) => {
     if (password !== user.password) {
       return res.status(400).json("Password incorrect");
     }
-    var token = jwt.sign({ id: user.id }, "havanquocdung", {
+    let token = jwt.sign({ id: user.id }, "havanquocdung", {
       expiresIn: 86400,
     });
     return res.json({
@@ -71,8 +102,8 @@ const loginUser = async (req, res) => {
 
 const privateLogin = (req, res) => {
   try {
-    var token = req.cookies.token;
-    var id = jwt.verify(token, "havanquocdung");
+    let token = req.cookies.token;
+    let id = jwt.verify(token, "havanquocdung");
     if (id) {
       return res
         .status(200)
@@ -88,4 +119,6 @@ module.exports = {
   registerUser,
   loginUser,
   privateLogin,
+  getById,
+  deleteUser,
 };
