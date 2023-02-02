@@ -1,11 +1,11 @@
 const { DataTypes } = require("sequelize");
 const db = require("../config/config");
-const { PostsModel } = require("./Post");
+const { PostsModel } = require("../models/Post");
 
 const UsersModel = db.define(
   "users",
   {
-    id: {
+    userId: {
       type: DataTypes.UUID,
       allowNull: false,
       primaryKey: true,
@@ -29,6 +29,18 @@ const UsersModel = db.define(
   }
 );
 
-UsersModel.Post = UsersModel.hasMany(PostsModel);
+UsersModel.hasMany(PostsModel, {
+  foreignKey: "userId",
+  sourceKey: "userId",
+  onDelete: "cascade",
+  onUpdate: "NO ACTION",
+});
+
+PostsModel.belongsTo(UsersModel, {
+  foreignKey: "userId",
+  targetKey: "userId",
+  onDelete: "cascade",
+  onUpdate: "NO ACTION",
+});
 
 module.exports = { UsersModel };

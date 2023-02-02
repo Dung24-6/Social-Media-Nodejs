@@ -1,4 +1,5 @@
 const { UsersModel } = require("../models/User");
+const { PostsModel } = require("../models/Post");
 const jwt = require("jsonwebtoken");
 
 const getALLUsers = async (req, res) => {
@@ -100,7 +101,7 @@ const loginUser = async (req, res) => {
   }
 };
 
-const privateLogin = (req, res) => {
+const privateLogin = async (req, res) => {
   try {
     let token = req.cookies.token;
     let id = jwt.verify(token, "havanquocdung");
@@ -114,6 +115,22 @@ const privateLogin = (req, res) => {
   }
 };
 
+const createPost = async (req, res) => {
+  const { userId, title } = req.body;
+  if (!(userId && title)) {
+    return res.status(400).json("Not enough params");
+  }
+  try {
+    const post = await PostsModel.create({
+      userId,
+      title,
+    });
+    return res.json(post);
+  } catch (err) {
+    return res.status(400).json({ error: err.message });
+  }
+};
+
 module.exports = {
   getALLUsers,
   registerUser,
@@ -121,4 +138,5 @@ module.exports = {
   privateLogin,
   getById,
   deleteUser,
+  createPost,
 };

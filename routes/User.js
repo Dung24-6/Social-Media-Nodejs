@@ -19,4 +19,6 @@ router.get("/checkAuth", checkAut.checkAuth, (req, res) => {
   res.json("Login oke");
 });
 
+router.post("/createPost", UserController.createPost);
+
 module.exports = router;
