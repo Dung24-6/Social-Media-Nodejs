@@ -23,15 +23,13 @@ const getALLUsers = async (req, res) => {
 };
 
 const getById = async (req, res) => {
-  const { id } = req.params;
-
+  const { userId } = req.params;
   try {
-    if (id) {
-      const users = await UsersModel.findOne({ where: { id: id } });
+    if (userId) {
+      const users = await UsersModel.findOne({ where: { userId: userId } });
       return res.status(200).json(users);
     } else {
-      const users = await UsersModel.findAll();
-      return res.status(200).json(users);
+      return res.status(200).json("No User");
     }
   } catch (err) {
     return res.status(400).json({ error: err.message });
@@ -61,10 +59,10 @@ const registerUser = async (req, res) => {
 };
 
 const deleteUser = async (req, res) => {
-  const { id } = req.params;
+  const { userId } = req.params;
   try {
-    if (id) {
-      const users = await UsersModel.findOne({ where: { id: id } });
+    if (userId) {
+      const users = await UsersModel.findOne({ where: { userId: userId } });
       await users.destroy();
       return res.status(200).json("Delete successful");
     } else {
@@ -88,7 +86,7 @@ const loginUser = async (req, res) => {
     if (password !== user.password) {
       return res.status(400).json("Password incorrect");
     }
-    let token = jwt.sign({ id: user.id }, "havanquocdung", {
+    let token = jwt.sign({ id: user.userId }, "havanquocdung", {
       expiresIn: 86400,
     });
     return res.json({
@@ -104,8 +102,8 @@ const loginUser = async (req, res) => {
 const privateLogin = async (req, res) => {
   try {
     let token = req.cookies.token;
-    let id = jwt.verify(token, "havanquocdung");
-    if (id) {
+    let userId = jwt.verify(token, "havanquocdung");
+    if (userId) {
       return res
         .status(200)
         .json("Login with token ok , you can access private");
@@ -131,6 +129,21 @@ const createPost = async (req, res) => {
   }
 };
 
+const deletePost = async (req, res) => {
+  const { postId } = req.params;
+  try {
+    if (postId) {
+      const post = await PostsModel.findOne({ where: { postId: postId } });
+      await post.destroy();
+      return res.status(200).json("Delete successful");
+    } else {
+      return res.status(200).json("No id");
+    }
+  } catch (err) {
+    return res.status(400).json({ error: err.message });
+  }
+};
+
 module.exports = {
   getALLUsers,
   registerUser,
@@ -139,4 +152,5 @@ module.exports = {
   getById,
   deleteUser,
   createPost,
+  deletePost,
 };

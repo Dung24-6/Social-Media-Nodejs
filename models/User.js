@@ -34,6 +34,7 @@ UsersModel.hasMany(PostsModel, {
   sourceKey: "userId",
   onDelete: "cascade",
   onUpdate: "NO ACTION",
+  hooks: true,
 });
 
 PostsModel.belongsTo(UsersModel, {
