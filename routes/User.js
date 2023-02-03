@@ -19,8 +19,4 @@ router.get("/checkAuth", checkAut.checkAuth, (req, res) => {
   res.json("Login oke");
 });
 
-router.post("/createPost", UserController.createPost);
-
-router.delete("/post/:postId", UserController.deletePost);
-
 module.exports = router;
