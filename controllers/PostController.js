@@ -1,4 +1,6 @@
 const { PostsModel } = require("../models/Post");
+const { UsersModel } = require("../models/User");
+const Sequelize = require("sequelize");
 
 const createPost = async (req, res) => {
   const { userId, title } = req.body;
@@ -31,7 +33,36 @@ const deletePost = async (req, res) => {
   }
 };
 
+const getPost = async (req, res) => {
+  const { postId } = req.params;
+  try {
+    const post = await PostsModel.findOne({ where: { postId: postId } });
+    if (post) {
+      return res.json(post);
+    } else {
+      return res.status(404).json("Post not found");
+    }
+  } catch (err) {
+    return res.status(400).json({ error: err.message });
+  }
+};
+
+const getAllPosts = async (req, res) => {
+  res.json({
+    data: await PostsModel.findAll({
+      include: [
+        {
+          model: UsersModel,
+          // where: { user: Sequelize.col("userId") },
+        },
+      ],
+    }),
+  });
+};
+
 module.exports = {
   createPost,
   deletePost,
+  getPost,
+  getAllPosts,
 };

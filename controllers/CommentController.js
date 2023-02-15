@@ -17,6 +17,18 @@ const createComment = async (req, res) => {
   }
 };
 
+const getComment = async (req, res) => {
+  const { postId } = req.params;
+  try {
+    const comments = await CommentsModel.findAll({
+      where: { postId: postId },
+    });
+    return res.json(comments);
+  } catch (err) {
+    return res.status(400).json({ error: err.message });
+  }
+};
+
 const deleteComment = async (req, res) => {
   const { commentId } = req.params;
   try {
@@ -34,7 +46,35 @@ const deleteComment = async (req, res) => {
   }
 };
 
+const updateComment = async (req, res) => {
+  const { commentId } = req.params;
+  const { content } = req.body;
+
+  try {
+    if (!commentId || !content) {
+      return res.status(400).json("Not enough params");
+    }
+
+    const comment = await CommentsModel.findOne({
+      where: { commentId: commentId },
+    });
+
+    if (!comment) {
+      return res.status(404).json("Comment not found");
+    }
+
+    comment.content = content;
+    await comment.save();
+
+    return res.json(comment);
+  } catch (err) {
+    return res.status(400).json({ error: err.message });
+  }
+};
+
 module.exports = {
   createComment,
   deleteComment,
+  getComment,
+  updateComment,
 };

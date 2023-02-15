@@ -1,19 +1,19 @@
 const { DataTypes } = require("sequelize");
 const db = require("../config/config");
 
-const LikesModel = db.define(
-  "likes",
+const RelationshipModel = db.define(
+  "relationships",
   {
-    likeId: {
+    relationshipId: {
       type: DataTypes.UUID,
       allowNull: false,
       primaryKey: true,
       autoIncrement: true,
     },
-    likeUserId: {
+    followeArUserId: {
       type: DataTypes.INTEGER,
     },
-    likedUserId: {
+    followedUserId: {
       type: DataTypes.INTEGER,
     },
   },
@@ -22,4 +22,4 @@ const LikesModel = db.define(
   }
 );
 
-module.exports = { LikesModel };
+module.exports = { RelationshipModel };
