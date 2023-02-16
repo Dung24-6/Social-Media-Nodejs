@@ -3,11 +3,13 @@ const userRouter = require("./User");
 const postRouter = require("./Post");
 const commentRouter = require("./Comment");
 const relationshipRouter = require("./Relationship");
+const likeRouter = require("./Like");
 const checkAuth = require("../middlewares/Auth");
 
 router.use("/users", userRouter);
 router.use("/posts", postRouter);
 router.use("/comments", commentRouter);
 router.use("/relationship", relationshipRouter);
+router.use("/likes", likeRouter);
 
 module.exports = router;
