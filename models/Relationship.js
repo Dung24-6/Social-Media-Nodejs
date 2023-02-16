@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const db = require("../config/config");
 
-const RelationshipModel = db.define(
+const RelationshipsModel = db.define(
   "relationships",
   {
     relationshipId: {
@@ -22,4 +22,4 @@ const RelationshipModel = db.define(
   }
 );
 
-module.exports = { RelationshipModel };
+module.exports = { RelationshipsModel };
