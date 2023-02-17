@@ -4,7 +4,6 @@ const postRouter = require("./Post");
 const commentRouter = require("./Comment");
 const relationshipRouter = require("./Relationship");
 const likeRouter = require("./Like");
-const checkAuth = require("../middlewares/Auth");
 
 router.use("/users", userRouter);
 router.use("/posts", postRouter);
